@@ -1,6 +1,6 @@
 import streamlit as st
 from psycopg_pool import ConnectionPool
-url = st.secrets["DATABASE_URL"]
+url = st.secrets["database"]["url"]
 @st.cache_resource
 def get_connection_pool():
     return ConnectionPool(
