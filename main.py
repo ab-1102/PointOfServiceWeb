@@ -1,6 +1,4 @@
 import dbms
-print("Logic Holder")
-
 # DBMS Wrapper
 def categories():
     return dbms.categories()
@@ -15,7 +13,6 @@ def add_to_bill(product, quantity = 1):
     currentBill.add(product, quantity)
 
 def finish_bill(customer_name, mobile_number):
-    print("Finished Bill for :", customer_name, mobile_number)
     currentBill.customer_name = customer_name
     currentBill.customer_phone_number = mobile_number
     dbms.store_bill(currentBill)

@@ -1,40 +1,51 @@
-print('DBMS Module')
+from database.connection import get_db_connection
 
 def store_bill(bill):
+    """Stores a new bill in the database."""
+
     pass
 
 def categories():
-    """
-    Returns a list of categories available in the database.
-    """
-    # Placeholder for actual database query
-    return ["Burgers", "Sandwiches", "Boba", "Shakes", "Cakes"]
+    """Returns categories containing active products."""
+
+    with get_db_connection() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute("""
+                SELECT DISTINCT category
+                FROM public.inventory
+                WHERE is_active = TRUE
+                ORDER BY category;
+            """)
+
+            return [row[0] for row in cursor.fetchall()]
+
 
 def products(category):
-    """
-    Returns a list of products for a given category.
-    """
-    # Placeholder for actual database query
-    cheese_burger = Product("Cheese Burger", 1, "Burgers", 10, 100, 5)
-    classic_burger = Product("Classic Burger", 2, "Burgers", 10, 100, 5)
-    veggie_burger = Product("Veggie Burger", 3, "Burgers", 11, 100, 6)
-    club_sandwich = Product("Club Sandwich", 4, "Sandwiches", 8, 100, 3)
-    grilled_cheese = Product("Grilled Cheese", 5, "Sandwiches", 7, 100, 2)
-    chocolate_shake = Product("Chocolate Shake", 6, "Shakes", 8, 100, 3)
-    vanilla_shake = Product("Vanilla Shake", 7, "Shakes", 8, 100, 3)
-    strawberry_shake = Product("Strawberry Shake", 8, "Shakes", 8, 100, 3)
-    mango_shake = Product("Mango Shake", 9, "Shakes", 8, 100, 3)
-    banana_shake = Product("Banana Shake", 10, "Shakes", 8, 100, 3)
-    coffee_shake = Product("Coffee Shake", 11, "Shakes", 8, 100, 3)
+    """Returns active products belonging to a given category."""
 
-    if category == "Burgers":
-        return [cheese_burger, classic_burger, veggie_burger]
-    elif category == "Sandwiches":
-        return [club_sandwich, grilled_cheese]
-    elif category == "Shakes":
-        return [chocolate_shake, vanilla_shake, strawberry_shake, mango_shake, banana_shake, coffee_shake]
-    else:
-        return []
+    with get_db_connection() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute("""
+                SELECT name, id, category, price, stock, cost_price
+                FROM public.inventory
+                WHERE category = %s
+                  AND is_active = TRUE
+                ORDER BY name;
+            """, (category,))
+
+            rows = cursor.fetchall()
+
+            return [
+                Product(
+                    name=row[0],
+                    id=row[1],
+                    category=row[2],
+                    sell_price=row[3],
+                    stock=row[4],
+                    cost_price=row[5]
+                )
+                for row in rows
+            ]
 
 class Product:
     def __init__(self, name, id, category, sell_price, stock, cost_price):

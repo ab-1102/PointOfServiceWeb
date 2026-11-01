@@ -76,5 +76,3 @@ with cartPanel:
         st.session_state.customer_name = ""
         st.session_state.customer_phone_number = ""
         st.rerun()
-
-print('Billing Page')
