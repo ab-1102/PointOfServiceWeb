@@ -8,7 +8,7 @@ if "customer_phone_number" not in st.session_state:
 
 st.set_page_config(layout="wide")
 
-productSelectionPanel, cartPanel = st.columns([7,3])
+productSelectionPanel, cartPanel = st.columns([6,4])
 
 with productSelectionPanel:
     categorises = main.categories() #----------------------------------- DBMS
@@ -17,7 +17,7 @@ with productSelectionPanel:
         category = categorises[tabI]
         with tab:
             products = main.products(category) #------------------------ DBMS
-            numCols = 4
+            numCols = 3
             proI = 0
             cols = st.columns(numCols)
             for proI in range(0 , len(products), numCols):
