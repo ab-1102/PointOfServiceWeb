@@ -403,7 +403,7 @@ class Bill:
         self.products = []
         self.customer_name = ""
         self.customer_phone_number = ""
-        self.payment_method = ""
+        self.payment_method = "Pay"
         self.payment_status = "Unpaid"
 
     def __len__(self):
