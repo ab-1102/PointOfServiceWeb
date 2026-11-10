@@ -16,35 +16,33 @@ bridge_component = st.components.v2.component(
         }
     """,
     js="""
-    
-export default function({ parentElement, setStateValue }) {
-    const button = parentElement.querySelector("#test_button");
-    const status = parentElement.querySelector("#status");
-
-    button.addEventListener("click", async () => {
-        const diagnostics = {
-            currentWindow: typeof window.pywebview,
-            topWindow: typeof window.top.pywebview,
-            api: typeof window.pywebview?.api,
-            hello: typeof window.pywebview?.api?.hello,
-            isTopWindow: window === window.top,
-            url: window.location.href
-        };
-
-        status.textContent = JSON.stringify(diagnostics, null, 2);
-
-        if (typeof window.pywebview?.api?.hello === "function") {
-            try {
-                const response = await window.pywebview.api.hello();
-                status.textContent += "\n\nResponse: " + response;
-                setStateValue("response", response);
-            } catch (error) {
-                status.textContent += "\n\nCall error: " + error.message;
-            }
-        }
-    });
-}
+        export default function({ parentElement, setStateValue }) {
+            const button = parentElement.querySelector("#test_button");
+            const status = parentElement.querySelector("#status");
         
+            button.addEventListener("click", async () => {
+                const diagnostics = {
+                    currentWindow: typeof window.pywebview,
+                    topWindow: typeof window.top.pywebview,
+                    api: typeof window.pywebview?.api,
+                    hello: typeof window.pywebview?.api?.hello,
+                    isTopWindow: window === window.top,
+                    url: window.location.href
+                };
+        
+                status.textContent = JSON.stringify(diagnostics, null, 2);
+        
+                if (typeof window.pywebview?.api?.hello === "function") {
+                    try {
+                        const response = await window.pywebview.api.hello();
+                        status.textContent += "\n\nResponse: " + response;
+                        setStateValue("response", response);
+                    } catch (error) {
+                        status.textContent += "\n\nCall error: " + error.message;
+                    }
+                }
+            });
+        }
     """
 )
 
