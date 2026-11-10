@@ -16,49 +16,35 @@ bridge_component = st.components.v2.component(
         }
     """,
     js="""
-        export default function({ parentElement, setStateValue }) {
-            const button = parentElement.querySelector("#test_button");
-            const status = parentElement.querySelector("#status");
+    
+export default function({ parentElement, setStateValue }) {
+    const button = parentElement.querySelector("#test_button");
+    const status = parentElement.querySelector("#status");
 
-            async function callPython() {
-                try {
-                    status.textContent = "Connecting...";
+    button.addEventListener("click", async () => {
+        const diagnostics = {
+            currentWindow: typeof window.pywebview,
+            topWindow: typeof window.top.pywebview,
+            api: typeof window.pywebview?.api,
+            hello: typeof window.pywebview?.api?.hello,
+            isTopWindow: window === window.top,
+            url: window.location.href
+        };
 
-                    // Wait if the PyWebView API is not ready yet.
-                    if (!window.pywebview?.api) {
-                        await new Promise((resolve, reject) => {
-                            const timeout = setTimeout(
-                                () => reject(new Error("PyWebView API unavailable")),
-                                5000
-                            );
+        status.textContent = JSON.stringify(diagnostics, null, 2);
 
-                            window.addEventListener(
-                                "pywebviewready",
-                                () => {
-                                    clearTimeout(timeout);
-                                    resolve();
-                                },
-                                { once: true }
-                            );
-                        });
-                    }
-
-                    const response =
-                        await window.pywebview.api.hello();
-
-                    status.textContent = response;
-
-                    // Send the response back to Streamlit Python.
-                    setStateValue("response", response);
-
-                } catch (error) {
-                    status.textContent = error.message;
-                    setStateValue("response", "ERROR: " + error.message);
-                }
+        if (typeof window.pywebview?.api?.hello === "function") {
+            try {
+                const response = await window.pywebview.api.hello();
+                status.textContent += "\n\nResponse: " + response;
+                setStateValue("response", response);
+            } catch (error) {
+                status.textContent += "\n\nCall error: " + error.message;
             }
-
-            button.addEventListener("click", callPython);
         }
+    });
+}
+        
     """
 )
 
