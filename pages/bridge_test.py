@@ -35,14 +35,21 @@ bridge_component = st.components.v2.component(
                 if (typeof window.pywebview?.api?.hello === "function") {
                     try {
                         const response = await window.pywebview.api.hello();
-                        status.textContent += "\n\nResponse: " + response;
+        
+                        status.textContent = JSON.stringify({
+                            diagnostics: diagnostics,
+                            response: response
+                        }, null, 2);
+        
                         setStateValue("response", response);
+        
                     } catch (error) {
-                        status.textContent += "\n\nCall error: " + error.message;
+                        status.textContent = "Call error: " + error.message;
                     }
                 }
             });
         }
+
     """
 )
 
