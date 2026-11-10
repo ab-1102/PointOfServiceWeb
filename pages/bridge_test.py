@@ -32,9 +32,9 @@ bridge_component = st.components.v2.component(
         
                 status.textContent = JSON.stringify(diagnostics, null, 2);
         
-                if (typeof window.pywebview?.api?.hello === "function") {
+                if (typeof window.top.pywebview?.api?.hello === "function") {
                     try {
-                        const response = await window.pywebview.api.hello();
+                        const response = await window.top.pywebview.api.hello();
         
                         status.textContent = JSON.stringify({
                             diagnostics: diagnostics,
