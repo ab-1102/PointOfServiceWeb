@@ -81,3 +81,5 @@ with cartPanel:
 
         else:
             st.toast("Check Name/Phone Number", icon="⚠️")
+    else:
+        st.toast("Empty Bill", icon="⚠️")
