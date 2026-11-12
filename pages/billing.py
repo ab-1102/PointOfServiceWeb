@@ -76,6 +76,8 @@ with cartPanel:
             main.finish_bill(st.session_state.customer_name, st.session_state.customer_phone_number)
             st.session_state.customer_name = ""
             st.session_state.customer_phone_number = ""
+            st.toast("Bill completed successfully!", duration=2, icon="✅")
             st.rerun()
+
         else:
             st.toast("Check Name/Phone Number", icon="⚠️")
