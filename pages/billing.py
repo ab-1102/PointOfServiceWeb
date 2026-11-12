@@ -72,7 +72,10 @@ with cartPanel:
     st.subheader(f"Total: ₹{main.currentBill.total()}")
 
     if st.button("Checkout",use_container_width=True) and main.currentBill.total() != 0:
-        main.finish_bill(st.session_state.customer_name, st.session_state.customer_phone_number)
-        st.session_state.customer_name = ""
-        st.session_state.customer_phone_number = ""
-        st.rerun()
+        if st.session_state.customer_name != "" and st.session_state.customer_phone_number != "" and len(st.session_state.customer_phone_number) == 10:
+            main.finish_bill(st.session_state.customer_name, st.session_state.customer_phone_number)
+            st.session_state.customer_name = ""
+            st.session_state.customer_phone_number = ""
+            st.rerun()
+        else:
+            st.toast("Check Name/Phone Number", icon="⚠️")
