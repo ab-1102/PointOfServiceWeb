@@ -10,3 +10,10 @@ link = st.components.v2.component(
     name="connection",
     js=JS
 )
+
+
+def send_to_local(bill):
+    link(
+        data={"bill": bill},
+        key="connection"
+    )
