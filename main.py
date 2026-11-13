@@ -18,7 +18,7 @@ def finish_bill(customer_name, mobile_number):
     currentBill.customer_phone_number = mobile_number
     dbms.store_bill(currentBill)
     bill = currentBill.products
-    data = [bill, customer_name, mobile_number]
+    data = "[bill, customer_name, mobile_number]"
     connection.send_to_local(data)
     currentBill.reset()
 
