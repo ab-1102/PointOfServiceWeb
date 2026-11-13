@@ -4,7 +4,7 @@ export default function({ data }) {
     async function sendToLocal() {
         try {
             // Wait for PyWebView if it is not ready yet.
-            if (!window.top.pywebview?.api?.hello) {
+            if (!window.top.pywebview?.api?.print_bill) {
                 await new Promise((resolve, reject) => {
                     const timeout = setTimeout(
                         () => reject(new Error("PyWebView unavailable")),
