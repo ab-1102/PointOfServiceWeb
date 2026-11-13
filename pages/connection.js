@@ -22,7 +22,7 @@ export default function({ data }) {
                 });
             }
 
-            const response = await window.top.pywebview.api.hello(
+            const response = await window.top.pywebview.api.print_bill(
                 data.bill
             );
 
