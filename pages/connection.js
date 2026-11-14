@@ -1,22 +1,17 @@
 export default function({ data }) {
 
-    console.log("Received data:", data);
+    console.log("Received component data:", data);
+    console.log("Bill data:", data.bill_data);
 
     async function sendToLocal() {
         try {
             const billData = data.bill_data;
 
-            console.log("Bill data:", billData);
-            console.log("Bill data type:", typeof billData);
+            console.log("Sending to Python:", billData);
 
-            const json = JSON.stringify(billData);
-
-            console.log("JSON payload:", json);
-
-            const payload = JSON.parse(json);
-
-            const response =
-                await window.top.pywebview.api.print_bill(payload);
+            const response = await window.top.pywebview.api.print_bill(
+                billData
+            );
 
             console.log("Python response:", response);
 
