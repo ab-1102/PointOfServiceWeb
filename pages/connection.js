@@ -1,22 +1,21 @@
 export default function({ data }) {
 
-    console.log("Received component data:", data);
-    console.log("Bill data:", data.bill_data);
+    console.log("COMPONENT EXECUTED");
 
     async function sendToLocal() {
         try {
-            const billData = data.bill_data;
+            const payload = data.bill_json;
 
-            console.log("Sending to Python:", billData);
+            console.log("JSON PAYLOAD:", payload);
+            console.log("PAYLOAD TYPE:", typeof payload);
 
-            const response = await window.top.pywebview.api.print_bill(
-                billData
-            );
+            const response =
+                await window.top.pywebview.api.print_bill(payload);
 
-            console.log("Python response:", response);
+            console.log("PYTHON RESPONSE:", response);
 
         } catch (error) {
-            console.error("Bridge error:", error);
+            console.error("BRIDGE ERROR:", error);
         }
     }
 

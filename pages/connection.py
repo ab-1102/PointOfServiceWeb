@@ -1,5 +1,6 @@
 import streamlit as st
 from pathlib import Path
+import json
 
 js_path = Path(__file__).parent / "connection.js"
 
@@ -13,7 +14,9 @@ link = st.components.v2.component(
 
 
 def send_to_local(bill_data):
+    bill_json = json.dumps(bill_data, default=str)
+
     link(
-        data={"bill_data": bill_data},
+        data={"bill_json": bill_json},
         key="connection"
     )
