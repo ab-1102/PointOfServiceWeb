@@ -440,6 +440,6 @@ class Bill:
         data = []
         for item in self.products:
             #row= [name,qty,price]
-            row = [item[0].name, item[1], item[0].sell_price*item[1]]
+            row = [item[0].name, item[1], float(item[0].sell_price*item[1])]
             data.append(row)
         return data
