@@ -1,35 +1,33 @@
-
 export default function({ data }) {
+
+    console.log("1. COMPONENT EXECUTED");
+    console.log("2. RECEIVED DATA:", data);
+
+    console.log("3. WINDOW:", window);
+    console.log("4. TOP WINDOW:", window.top);
+
+    try {
+        console.log("5. PYWEBVIEW:", window.top.pywebview);
+
+        console.log(
+            "6. PYWEBVIEW API:",
+            window.top.pywebview?.api
+        );
+
+    } catch (error) {
+        console.error("ACCESS ERROR:", error);
+    }
 
     async function sendToLocal() {
         try {
-            // Wait for PyWebView if it is not ready yet.
-            if (!window.top.pywebview?.api?.print_bill) {
-                await new Promise((resolve, reject) => {
-                    const timeout = setTimeout(
-                        () => reject(new Error("PyWebView unavailable")),
-                        10000
-                    );
-
-                    window.top.addEventListener(
-                        "pywebviewready",
-                        () => {
-                            clearTimeout(timeout);
-                            resolve();
-                        },
-                        { once: true }
-                    );
-                });
-            }
-
-            const response = await window.top.pywebview.api.print_bill(
-                data.bill
+            await window.top.pywebview.api.print_bill(
+                data.bill_data
             );
 
-            console.log(response);
+            console.log("7. CALL SUCCESSFUL");
 
         } catch (error) {
-            console.error("Bridge error:", error);
+            console.error("CALL FAILED:", error);
         }
     }
 

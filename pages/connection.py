@@ -12,8 +12,8 @@ link = st.components.v2.component(
 )
 
 
-def send_to_local(bill):
+def send_to_local(bill_data):
     link(
-        data={"bill": bill},
+        data={"bill_data": bill_data},
         key="connection"
     )
