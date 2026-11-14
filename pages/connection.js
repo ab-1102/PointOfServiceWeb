@@ -1,33 +1,22 @@
 export default function({ data }) {
 
-    console.log("1. COMPONENT EXECUTED");
-    console.log("2. RECEIVED DATA:", data);
-
-    console.log("3. WINDOW:", window);
-    console.log("4. TOP WINDOW:", window.top);
-
-    try {
-        console.log("5. PYWEBVIEW:", window.top.pywebview);
-
-        console.log(
-            "6. PYWEBVIEW API:",
-            window.top.pywebview?.api
-        );
-
-    } catch (error) {
-        console.error("ACCESS ERROR:", error);
-    }
+    console.log("Received component data:", data);
+    console.log("Bill data:", data.bill_data);
 
     async function sendToLocal() {
         try {
-            await window.top.pywebview.api.print_bill(
-                data.bill_data
+            const billData = data.bill_data;
+
+            console.log("Sending to Python:", billData);
+
+            const response = await window.top.pywebview.api.print_bill(
+                billData
             );
 
-            console.log("7. CALL SUCCESSFUL");
+            console.log("Python response:", response);
 
         } catch (error) {
-            console.error("CALL FAILED:", error);
+            console.error("Bridge error:", error);
         }
     }
 
